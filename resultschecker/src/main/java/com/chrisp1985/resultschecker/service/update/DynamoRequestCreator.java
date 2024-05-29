@@ -61,7 +61,8 @@ public class DynamoRequestCreator {
 
         double moneyStakedPounds = 5.0;
 
-        return awayScore >= homeScore ? moneyStakedPounds * readService.getDblChanceAwayOddsForEvent(eventId) : -moneyStakedPounds;
+        return awayScore >= homeScore ? (moneyStakedPounds * readService.getDblChanceAwayOddsForEvent(eventId)) -moneyStakedPounds :
+                -moneyStakedPounds;
 
     }
 
@@ -69,7 +70,8 @@ public class DynamoRequestCreator {
 
         double moneyStakedPounds = 5.0;
 
-        return awayScore <= homeScore ? moneyStakedPounds * readService.getDblChanceHomeOddsForEvent(eventId) : -moneyStakedPounds;
+        return awayScore <= homeScore ? (moneyStakedPounds * readService.getDblChanceHomeOddsForEvent(eventId)) - moneyStakedPounds :
+                -moneyStakedPounds;
 
     }
 
