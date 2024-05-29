@@ -1,6 +1,7 @@
 package com.chrisp1985.resultschecker.broker.ladbrokes.query;
 
 import com.chrisp1985.resultschecker.broker.ladbrokes.client.LadbrokesClient;
+import com.chrisp1985.resultschecker.broker.ladbrokes.model.response.ResponseModel;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,15 @@ public class LadbrokesService {
 
     private final LadbrokesClient brokerClient;
 
-    private final LadbrokesResponseParser ladbrokesResponseParser;
-
     @Autowired
-    public LadbrokesService(LadbrokesClient brokerClient, LadbrokesResponseParser ladbrokesResponseParser) {
+    public LadbrokesService(LadbrokesClient brokerClient) {
 
         this.brokerClient = brokerClient;
-        this.ladbrokesResponseParser = ladbrokesResponseParser;
 
+    }
+
+    public ResponseModel getResponseFromClient(Long eventId) {
+        return brokerClient.queryEventEndpoint(brokerClient.getPathForEventId(eventId));
     }
 
 

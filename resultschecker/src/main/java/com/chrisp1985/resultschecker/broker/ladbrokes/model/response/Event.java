@@ -19,8 +19,8 @@ public class Event {
     public String startTime;
     public String rawIsOffCode;
     public String isStarted;
-    public String isResulted;
-    public String isFinished;
+    public Boolean isResulted;
+    public Boolean isFinished;
     public String classId;
     public String typeId;
     public String sportId;

@@ -18,3 +18,4 @@ application:
       referrer: "https://sports.ladbrokes.com"
   dynamo:
     tablename: "FootballResults_tf"
+    cachettl: 360000

@@ -7,7 +7,10 @@ import com.chrisp1985.resultschecker.configuration.DynamoClientConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import java.text.ParseException;
@@ -45,6 +48,8 @@ public class DynamoDbDao implements StorageDao {
         }
     }
 
+
+    @Cacheable("scanrequest")
     public ScanResult read(HashMap<String, Condition> resultsFilter) {
 
         ScanRequest request = new ScanRequest(DYNAMODB_TABLE_NAME);
@@ -58,5 +63,11 @@ public class DynamoDbDao implements StorageDao {
                 .withTableName(DYNAMODB_TABLE_NAME)
                 .withKey(key);
         dynamoClientConfig.getDdbClient().deleteItem(deleteReq);
+    }
+
+    @CacheEvict(value = "scanrequest", allEntries = true)
+    @Scheduled(fixedRateString = "${application.dynamo.cachettl}")
+    public void emptydynamoCache() {
+        log.info("emptying Dynamo cache");
     }
 }
